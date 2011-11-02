@@ -1,4 +1,4 @@
 #!/usr/bin/env ruby
 
-require 'rubygems'
-require 'packager'
+require "rubygems"
+require "juicer"
