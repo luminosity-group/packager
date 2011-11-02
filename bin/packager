@@ -1,4 +1,13 @@
 #!/usr/bin/env ruby
 
-require 'rubygems'
-require 'packager'
+require "rubygems"
+require "juicer"
+
+@app_stylesheet = "application.min.css"
+@app_javascript = "application.min.js"
+@output = "assets.zip"
+
+puts `juicer merge --force -o #{@app_stylesheet} **/*.css`
+puts `juicer merge --force -i -o #{@app_javascript} **/*.js`
+puts `zip #{@output} *`
+`open -R #{@output}`
