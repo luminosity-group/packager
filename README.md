@@ -9,6 +9,10 @@ Installation
 	$ cd packager
 	$ rake install
 
+**Note**: You may need to
+	
+	$ gem install bundler rake
+
 Default Usage
 -------------
 Running packager in a directory will attempt to minify all CSS to application.min.css, minify all JS to application.min.js and finally zip up the contents of the directory to assets.zip.
