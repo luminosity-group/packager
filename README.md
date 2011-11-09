@@ -11,7 +11,7 @@ Installation
 
 **Note**: You may need to
 	
-	$ gem install bundler rake
+	$ gem install bundler rake sass
 
 Default Usage
 -------------
