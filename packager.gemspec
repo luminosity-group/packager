@@ -3,12 +3,12 @@ $:.push File.expand_path("../lib", __FILE__)
 
 Gem::Specification.new do |s|
   s.name        = "packager"
-  s.version     = "0.1"
+  s.version     = "0.2"
   s.authors     = ["Eric J. Holmes"]
   s.email       = ["eric@ejholmes.net"]
   s.homepage    = ""
   s.summary     = %q{Ruby gem for packaging css and javascript for force.com sites}
-  s.description = %q{Ruby gem for packaging css and javascript for uploading to force.com sites}
+  s.description = %q{Ruby gem for packaging css and javascript for force.com sites}
 
   s.rubyforge_project = "packager"
 
@@ -17,4 +17,5 @@ Gem::Specification.new do |s|
   s.executables   = `git ls-files -- bin/*`.split("\n").map{ |f| File.basename(f) }
 
   s.add_dependency "juicer"
+  s.add_dependency "sass"
 end

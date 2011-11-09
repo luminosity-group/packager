@@ -1,13 +1,33 @@
 #!/usr/bin/env ruby
 
 require "rubygems"
-require "juicer"
+require "yaml"
+require "tmpdir"
 
-@app_stylesheet = "application.min.css"
-@app_javascript = "application.min.js"
-@output = "assets.zip"
+config = YAML::load(File.open("Packfile"))
 
-puts `juicer merge --force -o #{@app_stylesheet} **/*.css`
-puts `juicer merge --force -i -o #{@app_javascript} **/*.js`
-puts `zip #{@output} *`
-`open -R #{@output}`
+@options = {
+  :app_stylesheet => config["output"]["stylesheet"]     || "application.css",
+  :app_javascript => config["output"]["javascript"]     || "application.js",
+  :package        => config["output"]["package"]        || "assets.zip",
+  :zip            => config["zip"]                      || true,
+  :stylesheets    => config["stylesheets"].join(" ")    || "**/*.css",
+  :javascripts    => config["javascripts"].join(" ")    || "**/*.js",
+  :coffeescripts  => config["coffeescripts"].join(" ")  || "**/*.coffee",
+  :sass           => config["sass"].join(" ")           || "**/*.scss **/*.sass",
+  :extras         => config["extras"].join(" ")         || ""
+}
+
+@build_dir = Dir.tmpdir
+@current_dir = Dir.pwd
+
+`cp -r . #{@build_dir}`
+Dir.chdir(@build_dir)
+
+`coffee -c #{@options[:coffeescripts]}`
+`sass --update #{@options[:sass]}`
+puts `juicer merge --force -o #{@options[:app_stylesheet]} #{@options[:stylesheets]}`
+puts `juicer merge --force -i -o #{@options[:app_javascript]} #{@options[:javascripts]}`
+puts `zip #{@options[:package]} #{@options[:app_stylesheet]} #{@options[:app_javascript]} #{@options[:extras]}` if @options[:zip]
+
+puts `cp #{@options[:package]} #{@current_dir}`
