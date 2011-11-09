@@ -8,7 +8,7 @@ Gem::Specification.new do |s|
   s.email       = ["eric@ejholmes.net"]
   s.homepage    = ""
   s.summary     = %q{Ruby gem for packaging css and javascript for force.com sites}
-  s.description = %q{Ruby gem for packaging css and javascript for uploading to force.com sites}
+  s.description = %q{Ruby gem for packaging css and javascript for force.com sites}
 
   s.rubyforge_project = "packager"
 
