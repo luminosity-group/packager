@@ -9,9 +9,11 @@ Installation
 	$ cd packager
 	$ rake install
 
-**Note**: You may need to
+**Note**: You may need to run:
 	
-	$ gem install bundler rake sass
+	$ gem install bundler rake sass juicer
+	$ juicer install yui_compressor
+	$ juicer install jslint
 
 Default Usage
 -------------
