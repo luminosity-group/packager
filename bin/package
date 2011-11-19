@@ -4,7 +4,9 @@ require "rubygems"
 require "yaml"
 require "tmpdir"
 
-config = YAML::load(File.open("Packfile"))
+if File.exists? "Packfile"
+    config = YAML::load(File.open("Packfile"))
+end
 
 @options = {
   :app_stylesheet => config["output"]["stylesheet"]     || "application.css",
@@ -21,13 +23,13 @@ config = YAML::load(File.open("Packfile"))
 @build_dir = Dir.tmpdir
 @current_dir = Dir.pwd
 
-`cp -r . #{@build_dir}`
+system "cp -r . #{@build_dir}"
 Dir.chdir(@build_dir)
 
-`coffee -c #{@options[:coffeescripts]}`
-`sass --update #{@options[:sass]}`
-puts `juicer merge --force -o #{@options[:app_stylesheet]} #{@options[:stylesheets]}`
-puts `juicer merge --force -i -o #{@options[:app_javascript]} #{@options[:javascripts]}`
-puts `zip #{@options[:package]} #{@options[:app_stylesheet]} #{@options[:app_javascript]} #{@options[:extras]}` if @options[:zip]
+system "coffee -c #{@options[:coffeescripts]}"
+system "sass --update #{@options[:sass]}"
+system "juicer merge --force -o #{@options[:app_stylesheet]} #{@options[:stylesheets]}"
+system "juicer merge --force -i -o #{@options[:app_javascript]} #{@options[:javascripts]}"
+system "zip #{@options[:package]} #{@options[:app_stylesheet]} #{@options[:app_javascript]} #{@options[:extras]}" if @options[:zip]
 
-puts `cp #{@options[:package]} #{@current_dir}`
+system "cp #{@options[:package]} #{@current_dir}"
