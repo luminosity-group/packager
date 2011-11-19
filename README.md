@@ -9,9 +9,11 @@ Installation
 	$ cd packager
 	$ rake install
 
-**Note**: You may need to
+**Note**: You may need to run:
 	
-	$ gem install bundler rake sass
+	$ gem install bundler rake sass juicer
+	$ juicer install yui_compressor
+	$ juicer install jslint
 
 Default Usage
 -------------
@@ -22,10 +24,9 @@ If there is a 'Packfile' in the current directory, packager will attempt to load
 **An example Packfile**:
 
 	---
-	    output:
-	        package: myassets.zip
-	        javascript: myapp.js
-	        stylesheets: myapp.css
+			package: myassets.zip
+			javascript: myapp.js
+			stylesheet: myapp.css
 	    javascripts: [
 	        javascripts/*.js ]
 	    coffeescripts: [

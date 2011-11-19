@@ -1,0 +1,91 @@
+#!/usr/bin/env ruby
+
+require "rubygems"
+require "yaml"
+require "tmpdir"
+
+@options = {
+  :package        => "assets.zip",
+  :app_stylesheet => "application.css",
+  :app_javascript => "application.js",
+  :zip            => true,
+  :stylesheets    => [ "**/*.css" ],
+  :javascripts    => [ "**/*.js" ],
+  :coffeescripts  => [ "**/*.coffee" ],
+  :sass           => [ "**/*.scss **/*.sass" ],
+  :extras         => [ "" ]
+}
+
+if File.exists? "Packfile"
+  config = YAML::load(File.open("Packfile"))
+  @options.merge!({
+    :package => config["package"] || @options[:package],
+    :app_stylesheet => config["stylesheet"] || @options[:app_stylesheet],
+    :app_javascript => config["javascript"] || @options[:app_javascript],
+    :zip => config["zip"] || @options[:zip],
+    :stylesheets => config["stylesheets"] || [],
+    :javascripts => config["javascripts"] || [],
+    :coffeescripts => config["coffeescripts"] || [],
+    :sass => config["sass"] || [],
+    :extras => config["extras"] || []
+  })
+end
+
+@options[:stylesheets] = @options[:stylesheets].join(" ")
+@options[:javascripts] = @options[:javascripts].join(" ")
+@options[:coffeescripts] = @options[:coffeescripts].join(" ")
+@options[:sass] = @options[:sass].join(" ")
+@options[:extras] = @options[:extras].join(" ")
+
+@build_dir = Dir.tmpdir
+@current_dir = Dir.pwd
+
+`which coffee`
+if $? != 0
+  $stderr.puts "No coffee command found. Ignoring coffeescripts."
+  @has_coffee = false
+else
+  @has_coffee = true
+end
+
+`which sass`
+if $? != 0
+  $stderr.puts "No sass command found. Ignoring sass files."
+  @has_sass = false
+else
+  @has_sass = true
+end
+
+`which juicer`
+if $? != 0
+  $stderr.puts "No juicer command found. Install with 'gem install juicer'."
+  exit
+end
+
+system "cp -r . #{@build_dir}"
+Dir.chdir(@build_dir)
+
+if @has_coffee && !@options[:coffeescripts].empty?
+  puts "Running: coffee"
+  system "coffee -c #{@options[:coffeescripts]}"
+end
+
+if @has_sass && !@options[:sass].empty?
+  puts "Running: sass"
+  system "sass --update #{@options[:sass]}" if @has_sass
+end
+
+unless @options[:stylesheets].empty?
+  puts "Minifying and merging stylesheets"
+  system "juicer merge --force -o #{@options[:app_stylesheet]} #{@options[:stylesheets]}"
+end
+
+unless @options[:javascripts].empty?
+  puts "Minifying and merging javascripts"
+  system "juicer merge --force -i -o #{@options[:app_javascript]} #{@options[:javascripts]}"
+end
+
+puts "Running: zip"
+system "zip #{@options[:package]} #{@options[:app_stylesheet]} #{@options[:app_javascript]} #{@options[:extras]}" if @options[:zip]
+
+system "cp #{@options[:package]} #{@current_dir}"
