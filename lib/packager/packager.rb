@@ -1,8 +1,11 @@
 require 'juicer'
 require 'tmpdir'
+require 'term/ansicolor'
 
 module Packager
   class Packager
+    include Term::ANSIColor
+
     def initialize(options)
       @options = options
       build
@@ -15,11 +18,11 @@ module Packager
         Dir.chdir(build_dir)
 
         unless @options[:stylesheets].empty?
-          puts "Minifying and merging stylesheets"
+          puts yellow("Minifying and merging stylesheets")
           merge(@options[:app_stylesheet], @options[:stylesheets])
         end
         unless @options[:javascripts].empty?
-          puts "Minifying and merging javascripts"
+          puts yellow("Minifying and merging javascripts")
           merge(@options[:app_javascript], @options[:javascripts])
         end
         zip
