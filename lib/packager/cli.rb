@@ -5,7 +5,7 @@ module Packager
     end
 
     def parse(args)
-      
+      options = Options.new
     end
 
     def self.run(argv)
