@@ -17,7 +17,7 @@ module Packager
       config = YAML::load(File.open(CONFIG_FILE))
       @options = {
         :package          => config['package']      || 'assets.zip',
-        :app_styleshseet  => config['stylesheet']   || 'application.css',
+        :app_stylesheet   => config['stylesheet']   || 'application.css',
         :app_javascript   => config['javascript']   || 'application.js',
         :stylesheets      => config['stylesheets']  || [ ],
         :javascripts      => config['javascripts']  || [ ],
