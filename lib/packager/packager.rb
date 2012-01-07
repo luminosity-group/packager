@@ -9,21 +9,22 @@ module Packager
     end
 
     def build
-      build_dir   = Dir.tmpdir
       current_dir = Dir.pwd
-      system "cp -r . #{build_dir}"
-      Dir.chdir(build_dir)
+      Dir.mktmpdir do |build_dir|
+        system "cp -r . #{build_dir}"
+        Dir.chdir(build_dir)
 
-      unless @options[:stylesheets].empty?
-        puts "Minifying and merging stylesheets"
-        merge(@options[:app_stylesheet], @options[:stylesheets])
+        unless @options[:stylesheets].empty?
+          puts "Minifying and merging stylesheets"
+          merge(@options[:app_stylesheet], @options[:stylesheets])
+        end
+        unless @options[:javascripts].empty?
+          puts "Minifying and merging javascripts"
+          merge(@options[:app_javascript], @options[:javascripts])
+        end
+        zip
+        system "cp #{@options[:package]} #{current_dir}"
       end
-      unless @options[:javascripts].empty?
-        puts "Minifying and merging javascripts"
-        merge(@options[:app_javascript], @options[:javascripts])
-      end
-      zip
-      system "cp #{@options[:package]} #{current_dir}"
     end
 
     def merge(output, input)
