@@ -1,6 +1,0 @@
----
-    javascripts: [
-        javascripts/jquery.js,
-        javascripts/jquery.demoplayer.js ]
-    stylesheets: [
-        stylesheets/*.css ]
