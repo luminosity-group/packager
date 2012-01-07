@@ -1,3 +1,6 @@
+require 'packager/options'
+require 'packager/packager'
+
 module Packager
   class Cli
     def initialize
