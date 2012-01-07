@@ -29,12 +29,8 @@ If there is a 'Packfile' in the current directory, packager will attempt to load
 			stylesheet: myapp.css
 	    javascripts: [
 	        javascripts/*.js ]
-	    coffeescripts: [
-	        javascripts/*.coffee ]
 	    stylesheets: [
 	        stylesheets/*.css ]
-	    sass: [
-	        stylesheets/*.scss ]
 	    extras: [
 	        img/* ]
 	

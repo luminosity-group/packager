@@ -20,12 +20,18 @@ module Packager
       end
       unless @options[:javascripts].empty?
         puts "Minifying and merging javascripts"
-        merge(@options[:app_javascripts], @options[:javascripts])
+        merge(@options[:app_javascript], @options[:javascripts])
       end
+      zip
+      system "cp #{@options[:package]} #{current_dir}"
     end
 
     def merge(output, input)
-      # Juicer::Cli.run("merge --force -s -i -o #{output} #{input}")
+      system "juicer merge --force -s -i -o #{output} #{input}"
+    end
+
+    def zip
+      system "zip #{@options[:package]} #{@options[:app_stylesheet]} #{@options[:app_javascript]} #{@options[:extras]}"
     end
   end
 end
