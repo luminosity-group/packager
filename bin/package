@@ -1,3 +1,6 @@
 #!/usr/bin/env ruby
 
 require 'packager'
+require 'packager/cli'
+
+Packager::Cli.run(ARGV)

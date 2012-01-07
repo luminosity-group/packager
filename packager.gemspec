@@ -4,7 +4,7 @@ require "packager/version"
 
 Gem::Specification.new do |s|
   s.name        = "packager"
-  s.version     = Packager::Version
+  s.version     = Packager::VERSION
   s.authors     = ["Eric J. Holmes"]
   s.email       = ["eric@ejholmes.net"]
   s.homepage    = ""
@@ -18,5 +18,7 @@ Gem::Specification.new do |s|
   s.executables   = `git ls-files -- bin/*`.split("\n").map{ |f| File.basename(f) }
   s.require_paths = ["lib"]
 
+  s.add_development_dependency "rspec"
+  s.add_dependency "methadone"
   s.add_dependency "juicer"
 end
