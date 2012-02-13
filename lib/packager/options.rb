@@ -1,5 +1,4 @@
 require 'yaml'
-require 'methadone'
 
 module Packager
   CONFIG_FILE = "Packfile"
